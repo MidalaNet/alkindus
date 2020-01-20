@@ -4,7 +4,7 @@ GTK+ PDF Reader
 Glade
 http://tadeboro.blogspot.com/2009/09/glade3-tutorial-1-introduction.html
 
-Vala
+== Vala
 Tutorial - http://live.gnome.org/Vala/Tutorial
 Reference - http://live.gnome.org/Vala/Manual
 Online API Documentation - http://www.valadoc.org/
