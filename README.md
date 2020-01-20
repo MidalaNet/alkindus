@@ -2,7 +2,7 @@
 GTK+ PDF Reader
 
 ## Glade
-http://tadeboro.blogspot.com/2009/09/glade3-tutorial-1-introduction.html
+* http://tadeboro.blogspot.com/2009/09/glade3-tutorial-1-introduction.html
 
 ## Vala
 * Tutorial - http://live.gnome.org/Vala/Tutorial
