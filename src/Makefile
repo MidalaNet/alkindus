@@ -1,6 +1,6 @@
 # Makefile
  
-PROGRAM = gtkpdf
+PROGRAM = alkindus
 SRC = main.vala
 PKGS = --pkg gtk+-2.0 --pkg gmodule-2.0 --pkg poppler-glib 
 VALAC = valac

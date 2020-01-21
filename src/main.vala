@@ -1,6 +1,6 @@
 
 /* 
- * gtkpdf
+ * alkindus
  * GTK+ PDF reader
  *
  */
@@ -49,7 +49,7 @@ public class PdfReader : GLib.Object {
       null, 
       Gtk.DialogFlags.DESTROY_WITH_PARENT | Gtk.DialogFlags.MODAL, 
       Gtk.MessageType.INFO, 
-      Gtk.ButtonsType.CLOSE, ("gtkpdf\nGTK+ PDF reader\n\nCopyright (c) 2010, Paolo Radice. All rights reserved.")
+      Gtk.ButtonsType.CLOSE, ("alkindus\nGTK+ PDF Reader\n\nCopyright (c) 2010, netico All rights reserved.")
     );
     dialog.title = "GTK+ PDF reader";
     dialog.run ();
@@ -104,12 +104,12 @@ public class PdfReader : GLib.Object {
   public void on_menuopen_activate (Gtk.Widget source) {
     
     var dialog = new FileChooserDialog (
-      "GTK+ PDF reader", 
+      "GTK+ PDF Reader", 
       null, 
       FileChooserAction.OPEN, 
-      STOCK_CANCEL, 
+      Stock.CANCEL, 
       ResponseType.CANCEL, 
-      STOCK_OPEN, 
+      Stock.OPEN, 
       ResponseType.ACCEPT, 
       null
     );
