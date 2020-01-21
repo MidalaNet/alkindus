@@ -1,0 +1,30 @@
+--- !Project
+name: gtkpdf
+author: netico - netico@riseup.net
+version: 0.1
+license: /home/netico/.valide/licenses/gplv3
+builder: Make
+builder-options: !MakeBuilderOptions
+  prefix: 
+  configure-options: 
+  build-options: 
+  install-options: 
+  dist-options: 
+  clean-options: 
+  distclean-options: 
+  uninstall-options: 
+executable-options:
+  program: 
+  arguments: 
+  working-dir: /usr/home/netico/Projects/gtkpdf/
+  environment: []
+files:
+- path: Makefile
+- path: README
+- path: main.vala
+- path: COPYING
+packages:
+- name: gmodule-2.0
+- name: poppler-glib
+- name: gtk+-2.0
+vapi_dir: []
