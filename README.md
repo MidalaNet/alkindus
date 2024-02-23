@@ -1,6 +1,8 @@
 # Alkindus
 GTK+ PDF reader
 
+![Alkindus](https://github.com/MidalaNet/alkindus/blob/master/doc/screenshot.png)
+
 ## Glade
 * http://tadeboro.blogspot.com/2009/09/glade3-tutorial-1-introduction.html
 
