@@ -1,6 +1,6 @@
 
 /* 
- * alkindus
+ * Alkindus
  * GTK+ PDF reader
  *
  */
@@ -27,7 +27,7 @@ public class PdfReader : GLib.Object {
     try {
       Gtk.Builder builder = new Gtk.Builder ();
               
-      builder.add_from_file ("main.ui");
+      builder.add_from_file ("/usr/local/share/alkindus/main.ui");
       
       window = builder.get_object ("window") as Gtk.Window;
       this.image = builder.get_object ("image1") as Gtk.Image;
@@ -49,7 +49,7 @@ public class PdfReader : GLib.Object {
       null, 
       Gtk.DialogFlags.DESTROY_WITH_PARENT | Gtk.DialogFlags.MODAL, 
       Gtk.MessageType.INFO, 
-      Gtk.ButtonsType.CLOSE, ("alkindus\nGTK+ PDF Reader\n\nCopyright (c) 2010, netico All rights reserved.")
+      Gtk.ButtonsType.CLOSE, ("Alkindus\nGTK+ PDF reader\n\nWritten in Vala for Linux environments, this is a very lightweight PDF document reader. Released under the GPLv3 licence, it is free software.")
     );
     dialog.title = "GTK+ PDF reader";
     dialog.run ();
@@ -60,7 +60,7 @@ public class PdfReader : GLib.Object {
   public void on_buttonzoomin_clicked (Gtk.Widget source) {   
     
     this.ratio = this.ratio + 0.5;   
-    reader (this.document);
+    reader (this.document, this.ratio);
   }
   
   [CCode (instance_pos = -1)]
@@ -70,7 +70,7 @@ public class PdfReader : GLib.Object {
     if (this.ratio > 0.5) {
     
       this.ratio = this.ratio - 0.5;
-      reader (this.document);
+      reader (this.document, this.ratio);
     }
   }
   
@@ -86,7 +86,7 @@ public class PdfReader : GLib.Object {
         this.index--;
       }
     }
-    reader (this.document);
+    reader (this.document, this.ratio);
   }
   
   [CCode (instance_pos = -1)]
@@ -97,7 +97,7 @@ public class PdfReader : GLib.Object {
     } else {
       this.index = this.ptotal - 1;
     }
-    reader (this.document);
+    reader (this.document, this.ratio);
   }
   
   [CCode (instance_pos = -1)]
@@ -107,9 +107,9 @@ public class PdfReader : GLib.Object {
       "GTK+ PDF Reader", 
       null, 
       FileChooserAction.OPEN, 
-      Stock.CANCEL, 
+      "Cancel", 
       ResponseType.CANCEL, 
-      Stock.OPEN, 
+      "Open", 
       ResponseType.ACCEPT, 
       null
     );
@@ -125,49 +125,40 @@ public class PdfReader : GLib.Object {
     
       this.document = dialog.get_filename ();
       this.index = 0;
-      reader (this.document);
+      reader (this.document, this.ratio);
     }
     
     dialog.destroy ();
   }
 
-  public void reader (string document) {  
-  
+  public void reader (string document, double ratio) {  
     string msg; 
     double page_width, page_height;
     int twidth, theight;
 
     try {
-    
       this.pdf = new Poppler.Document.from_file (Filename.to_uri (document), "");
-      
-      this.window.title = pdf.title + " (" + document + ")";
-      
+      this.window.title = "Alkindus";//pdf.title; // + " (" + document + ")";
       this.ptotal = this.pdf.get_n_pages ();
       var page = this.pdf.get_page (this.index);
-            
       int pnumber = this.index + 1;
-      
       msg = "Page " + pnumber.to_string () + " of " + this.ptotal.to_string ();
-      
       page.get_size(out page_width, out page_height);
-      twidth = (int) (page_width * this.ratio);
-      theight = (int) (page_height * this.ratio);
-      
-      var pixbuf = new Gdk.Pixbuf (Gdk.Colorspace.RGB, false, 8, twidth, theight);
+      twidth = (int) (page_width * ratio);
+      theight = (int) (page_height * ratio);
+      var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, twidth, theight);
+      var cr = new Cairo.Context (surface);
+      cr.scale (ratio, ratio); // Aggiungi questa linea per applicare lo zoom
+      page.render_for_printing (cr);
+      var pixbuf = Gdk.pixbuf_get_from_surface (surface, 0, 0, twidth, theight);
 
-      page.render_to_pixbuf (0, 0, twidth, theight, this.ratio, 0, pixbuf);
-      
+      // Imposta l'immagine del widget Gtk.Image
       this.image.set_from_pixbuf (pixbuf);
-        
     } catch (Error e) {
-    
-        msg = "Error: " + e.message;
-        
+      msg = "Error: " + e.message;
     }
 
     this.statusbar.push (1, msg);
-
   }
 }
 
